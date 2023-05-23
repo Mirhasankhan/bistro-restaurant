@@ -1,5 +1,5 @@
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination } from "swiper";
+import { Pagination, Autoplay } from "swiper";
 
 import "swiper/css";
 import "swiper/css/pagination";
@@ -15,18 +15,23 @@ import SectionTitle from "../../Components/SectionTitle";
 const Category = () => {
     return (
         <section>
-            <SectionTitle 
-            subHeading={"From 11.00am to 10.00pm"}
-            heading={"Order Online"}
+            <SectionTitle
+                subHeading={"From 11.00am to 10.00pm"}
+                heading={"Order Online"}
             ></SectionTitle>
             <Swiper
                 slidesPerView={4}
                 spaceBetween={30}
-                centeredSlides={true}
+                // centeredSlides={true}
+                autoplay={{
+                    delay: 200,
+                    disableOnInteraction: false,
+                }}
+               
                 pagination={{
                     clickable: true,
                 }}
-                modules={[Pagination]}
+                modules={[Pagination, Autoplay]}
                 className="mySwiper mb-24"
             >
                 <SwiperSlide>
@@ -36,6 +41,18 @@ const Category = () => {
                 <SwiperSlide>
                     <img src={slide2} alt="" />
                     <h3 className="slider-title">Pizzas</h3>
+                </SwiperSlide>
+                <SwiperSlide>
+                    <img src={slide3} alt="" />
+                    <h3 className="slider-title">Soups</h3>
+                </SwiperSlide>
+                <SwiperSlide>
+                    <img src={slide4} alt="" />
+                    <h3 className="slider-title">Desserts</h3>
+                </SwiperSlide>
+                <SwiperSlide>
+                    <img src={slide5} alt="" />
+                    <h3 className="slider-title">Salads</h3>
                 </SwiperSlide>
                 <SwiperSlide>
                     <img src={slide3} alt="" />

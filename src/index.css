@@ -5,3 +5,7 @@
 .slider-title{
     @apply text-4xl uppercase text-center -mt-16 text-white
 }
+
+.about{
+    @apply bg-about-bg h-96 bg-cover bg-no-repeat flex justify-center items-center rounded-lg mb-8
+}
