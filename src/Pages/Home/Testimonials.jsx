@@ -5,6 +5,7 @@ import '@smastrom/react-rating/style.css'
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
+import { FaQuoteLeft } from 'react-icons/fa';
 
 import { Navigation } from "swiper";
 
@@ -12,7 +13,7 @@ import { Navigation } from "swiper";
 const Testimonials = () => {
     const [review, setReview] = useState([])
     useEffect(() => {
-        fetch('reviews.json')
+        fetch('http://localhost:5000/reviews')
             .then(res => res.json())
             .then(data => {
                 setReview(data)
@@ -33,6 +34,7 @@ const Testimonials = () => {
                             <Rating style={{ maxWidth: 150 }}
                                 value={r.rating}
                             />
+                            <FaQuoteLeft className='text-6xl mt-8'></FaQuoteLeft>
                             <p className='pt-4 pb-2'>{r.details}</p>
                             <h2 className='text-2xl text-orange-400'>{r.name}</h2>
                         </div>
