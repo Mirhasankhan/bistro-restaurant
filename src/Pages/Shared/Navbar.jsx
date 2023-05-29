@@ -1,12 +1,26 @@
 import React from 'react';
+import { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../../Providers/AuthProvider';
+import Swal from 'sweetalert2';
 
 const Navbar = () => {
+    const { user, logOut } = useContext(AuthContext)
+    const handleLogout = () => {
+        logOut()
+            .then(() => {
+                Swal.fire('Logout successfull')
+            })
+            .catch(()=>{})
+    }
     const navOption = <>
         <li><Link to="/">Home</Link></li>
         <li><Link to="/menu">Our Menu</Link></li>
         <li><Link to="/orders/salad">Order Food</Link></li>
-        <li><a>Item 3</a></li></>
+        {
+            user ? <><button onClick={handleLogout}>Logout</button></> : <> <li><Link to="/login">Login</Link></li></>
+        }
+    </>
     return (
         <div className="navbar fixed z-10 bg-opacity-30 max-w-screen-xl bg-black text-white">
             <div className="navbar-start">
