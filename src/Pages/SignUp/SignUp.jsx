@@ -3,18 +3,35 @@ import { useForm } from 'react-hook-form';
 import { AuthContext } from '../../Providers/AuthProvider';
 import { Helmet } from 'react-helmet-async';
 import { Link, useNavigate } from 'react-router-dom';
+import SocialLogin from '../Shared/SocialLogin';
 
 const SignUp = () => {
     const { createUser, updateUserProfile } = useContext(AuthContext)
     const navigate = useNavigate()
-    const { register, handleSubmit, formState: { errors } , reset} = useForm();
+    const { register, handleSubmit, formState: { errors }, reset } = useForm();
     const onSubmit = data => {
         createUser(data.email, data.password)
-        .then(result =>{
-            updateUserProfile(data.name, data.photoURL)
-            navigate('/')
-        })
-        .catch(error =>{})
+            .then(() => {
+                updateUserProfile(data.name, data.photoURL)
+                const savedUser = {name: data.name, email: data.email}
+                fetch('http://localhost:5000/users', {
+                    method: 'POST',
+                    headers: {
+                        'content-type': 'application/json'
+                    },
+                    body: JSON.stringify(savedUser)
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.insertedId) {
+                            alert('user saved in DB')
+                            navigate('/')
+                        }
+                    })
+
+
+            })
+            .catch(() => { })
         reset()
     };
     return (
@@ -63,6 +80,7 @@ const SignUp = () => {
                                 </div>
                             </form>
                             <p><small>Already have an account? <Link to="/login">login</Link></small></p>
+                            <SocialLogin></SocialLogin>
                         </div>
                     </div>
                 </div>
