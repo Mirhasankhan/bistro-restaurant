@@ -18,7 +18,8 @@ const FoodCard = ({ item }) => {
                 foodID: _id,
                 email: user.email,
                 name,
-                image
+                image,
+                price
             }
             fetch('http://localhost:5000/carts',{
                 method: 'POST',
@@ -30,14 +31,15 @@ const FoodCard = ({ item }) => {
                 .then(res => res.json())
                 .then(data => {
                     if (data.insertedId) {
-                        refetch()
+                       
                         Swal.fire({
-                            position: 'top-end',
+                            position: 'bottom-left',
                             icon: 'success',
                             title: 'Food Added Into Cart',
                             showConfirmButton: false,
                             timer: 500
                         })
+                        refetch()
                     }
                 })
         }

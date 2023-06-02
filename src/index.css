@@ -9,3 +9,10 @@
 .about{
     @apply bg-about-bg h-96 bg-cover bg-no-repeat flex justify-center items-center rounded-lg mb-8
 }
+
+.drawer-side a.active{
+    clear: white;
+}
+.drawer-side a{
+   background-color: transparent;
+}
