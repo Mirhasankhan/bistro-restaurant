@@ -24,6 +24,7 @@ const MyCart = () => {
                 })
                     .then(res => res.json())
                     .then(data => {
+                        refetch()
                         if (data.deletedCount > 0) {
                             refetch()
                             Swal.fire(
@@ -65,7 +66,6 @@ const MyCart = () => {
                             cart.map((item, index) => <tr
                                 key={item._id}
                             >
-
                                 <td>
                                     {index + 1}
                                 </td>
@@ -87,7 +87,6 @@ const MyCart = () => {
                                 </td>
                             </tr>)
                         }
-
                     </tbody>
                 </table>
             </div>

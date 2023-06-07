@@ -2,10 +2,13 @@ import React from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
 import { FaShoppingCart, FaWallet, FaCalendarAlt, FaHome, FaUtensils, FaBook, FaUsers, } from 'react-icons/fa';
 import useCart from '../hooks/useCart';
+import useAdmin from '../hooks/useAdmin';
 
 const Dashboard = () => {
-    const [cart] = useCart()
-    const isAdmin = true;
+    const [cart] = useCart()    
+    const [isAdmin] = useAdmin()
+   
+ 
     return (
         <div className="drawer drawer-mobile">
             <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
@@ -21,10 +24,12 @@ const Dashboard = () => {
                     {/* Sidebar content here */}
                     {
                         isAdmin ? <>  <li><NavLink to="/dashboard/home"><FaHome></FaHome>Admin Home</NavLink></li>
-                            <li><NavLink to="/dashboard/reservation"><FaUtensils></FaUtensils> Add Items</NavLink></li>
+                            <li><NavLink to="/dashboard/addItem"><FaUtensils></FaUtensils> Add Items</NavLink></li>
                             <li><NavLink to="/dashboard/history"><FaWallet></FaWallet>Manage Items</NavLink></li>
                             <li><NavLink to="/dashboard/history"><FaBook></FaBook> Manage Bookings</NavLink></li>
-                            <li><NavLink to="/dashboard/users"><FaUsers></FaUsers> All Users</NavLink></li>
+                            <li><NavLink to="/dashboard/users"><FaUsers></FaUsers> All Users
+                            <div className="badge badge-secondary">+{cart?.length || 0}</div>
+                            </NavLink></li>
                            </> :
 
                             <>  <li><NavLink to="/dashboard/home"><FaHome></FaHome>User Home</NavLink></li>

@@ -12,7 +12,7 @@ const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null)
     const [loading, setLoading] = useState(true)
 
-    const googleSignIn = ()=>{
+    const googleSignIn = () => {
         setLoading()
         return signInWithPopup(auth, googleProvider)
     }
@@ -42,17 +42,19 @@ const AuthProvider = ({ children }) => {
             console.log(currentUser);
             setUser(currentUser)
 
-            if(currentUser){
-                axios.post('http://localhost:5000/jwt',{email: currentUser.email})
-                .then(data =>{                    
-                    localStorage.setItem('access-token', data.data.token)
-                })
+            if (currentUser) {
+                axios.post('http://localhost:5000/jwt', { email: currentUser.email })
+                    .then(data => {
+                        localStorage.setItem('access-token', data.data.token)
+                       
+                    })
             }
-            else{
+            else {
                 localStorage.removeItem('access-token')
             }
-
             setLoading(false)
+          
+
         })
         return () => {
             return unsubcribe;
