@@ -1,13 +1,13 @@
 import React from 'react';
-import { Helmet } from 'react-helmet-async';
-import useCart from '../../hooks/useCart';
+import SectionTitle from '../../Components/SectionTitle';
+import useMenu from '../../hooks/useMenu';
 import { FaTrashAlt } from 'react-icons/fa';
 import Swal from 'sweetalert2';
-import { Link } from 'react-router-dom';
+import useAxiosSecure from '../../hooks/useAxiosSecure';
 
-const MyCart = () => {
-    const [cart, refetch] = useCart()   
-    const total = cart?.reduce((sum, item) => item?.price + sum, 0);
+const ManageItems = () => {
+    const [menu, loading, refetch] = useMenu()
+    const [axiosSecure] = useAxiosSecure()
     const handleDelete = item => {
         Swal.fire({
             title: 'Are you sure?',
@@ -19,14 +19,9 @@ const MyCart = () => {
             confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
             if (result.isConfirmed) {
-                fetch(`http://localhost:5000/carts/${item._id}`, {
-                    method: 'DELETE'
-
-                })
-                    .then(res => res.json())
-                    .then(data => {
-                        refetch()
-                        if (data.deletedCount > 0) {
+                axiosSecure.delete(`/menu/${item._id}`)
+                    .then(res => {
+                        if (res.data.deletedCount > 0) {
                             refetch()
                             Swal.fire(
                                 'Deleted!',
@@ -40,49 +35,49 @@ const MyCart = () => {
     }
     return (
         <div className='w-full'>
-            <Helmet>
-                <title>Bistro Boss | My Cart</title>
-                <link rel="canonical" href="https://www.tacobell.com/" />
-            </Helmet>
-            <div className='flex justify-between h- uppercase items-center font-medium'>
-                <h1>Total Orders: {cart?.length}</h1>
-                <h1>Total Orders: ${total}</h1>
-                <Link to="/dashboard/payment"><button className="btn btn-warning btn-lg text-white">Pay</button></Link>
-            </div>
+            <SectionTitle subHeading={"Hurry Up"} heading={"Manage All Items"}></SectionTitle>
             <div className="overflow-x-auto">
                 <table className="table">
+                    {/* head */}
                     <thead>
                         <tr>
                             <th>
-                                #
+                                Serial
                             </th>
-                            <th>Food</th>
-                            <th>Item Name</th>
+                            <th>Item</th>
                             <th>Price</th>
-                            <th>Action</th>
+                            <th>Category</th>
+                            <th>Update</th>
+                            <th>Delete</th>
                         </tr>
                     </thead>
                     <tbody>
                         {
-                            cart.map((item, index) => <tr
+                            menu.map((item, index) => <tr
                                 key={item._id}
                             >
-                                <td>
+                                <th>
                                     {index + 1}
-                                </td>
+                                </th>
                                 <td>
-                                    <div className="avatar">
-                                        <div className="mask mask-squircle w-12 h-12">
-                                            <img src={item.image} alt="Avatar Tailwind CSS Component" />
+                                    <div className="flex items-center space-x-3">
+                                        <div className="avatar">
+                                            <div className="mask mask-squircle w-12 h-12">
+                                                <img src={item.image} alt="Avatar Tailwind CSS Component" />
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div className="font-bold">{item.name}</div>
                                         </div>
                                     </div>
                                 </td>
-                                <td>
-                                    {item.name}
-                                    <br />
-                                    <span className="badge badge-ghost badge-sm">Community Outreach Specialist</span>
+                                <td className='text-right'>
+                                    ${item.price}
                                 </td>
-                                <td className='text-end'>${item.price}</td>
+                                <td>{item.category}</td>
+                                <td>
+                                    <button className="btn btn-ghost btn-xs">Update</button>
+                                </td>
                                 <td>
                                     <button onClick={() => handleDelete(item)} className="bg-red-400 text-white btn btn-ghost btn-xl"><FaTrashAlt className='text-xl'></FaTrashAlt></button>
                                 </td>
@@ -95,4 +90,4 @@ const MyCart = () => {
     );
 };
 
-export default MyCart;
+export default ManageItems;

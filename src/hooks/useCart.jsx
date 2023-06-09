@@ -23,7 +23,7 @@ const useCart = () => {
             
     //         return res.json();
     //     },
-    })
+    })   
 
     return [cart, refetch]
 }
